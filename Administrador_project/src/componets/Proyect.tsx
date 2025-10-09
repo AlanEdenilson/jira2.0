@@ -3,7 +3,7 @@ const Proyect = () => {
   return (
     <div className="bg-lime-500 w-4/5 h-screen grow  gap-1 flex  flex-wrap content-start  ">
 
-       <div className="container bg-amber-400 grow h-1/5  min-w-full flex flex-col gap-1">
+       <div className="container bg-amber-400 grow h-1/5  min-w-full flex flex-col gap-2">
 
           <h1 className="pt-4 ml-5 font-mono">Proyectos</h1>
 
@@ -12,10 +12,10 @@ const Proyect = () => {
           </div>
 
           <div>
-            <ul>
-              <li>Elemento 1</li>
-                <li>Elemento 2</li>
-                <li>Elemento 3</li>
+            <ul className="pt-2 ml-5 flex gap-10">
+              <li>Tablero</li>
+              <li>Elemento 2</li>
+             <li>Elemento 3</li>
             </ul>
 
           </div>
