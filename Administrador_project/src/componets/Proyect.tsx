@@ -22,8 +22,16 @@ const Proyect = () => {
 
        </div>
 
-      <div className="container bg-amber-400 w-1/5 h-4/5 min-w-full">
+      <div className="container pt-10 bg-amber-400 w-1/5 h-4/5 min-w-full flex gap-2 grow justify-start" >
+
+        <div className="container ml-2  bg-white w-2/5 h-full ">
+          hh
+       </div>
+
+       <div className="container bg-white w-2/5 h-full ">
           hola mundo
+       </div>
+
       </div>
 
     
