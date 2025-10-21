@@ -1,5 +1,6 @@
 import { useState } from "react"
 import ListProject from "./ListProject";
+import CreateProject from "./CreateProject"
 
 
 const BarraLateral = () => {
@@ -24,7 +25,7 @@ const BarraLateral = () => {
 
     
     <div className={`${open ? 'bg-white w-5 h-screen basis-1/5 shadow-lg shadow-black mr-2 pt-2 relative':'hidden'} `}>
-    <button className="mt-6 ml-8 mb-10 bg-blue-400 p-3 rounded-full">Add Project</button>
+    <button onClick={() => setOpen(true)} className="mt-6 ml-8 mb-10 bg-blue-400 p-3 rounded-full">Add Project</button>
 
     <CreateProject isOpen={isOpen} onClose={() => setIsOpen(false)}>
         
