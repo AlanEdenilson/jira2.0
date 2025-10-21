@@ -6,6 +6,8 @@ const BarraLateral = () => {
 
    const[open,setOpen] = useState(true)
 
+   const [isOpen, setIsOpen] = useState(false);
+
    const toggleSidebar = () => {
     setOpen(!open); // Cambia el estado de isOpen
   };
@@ -23,6 +25,12 @@ const BarraLateral = () => {
     
     <div className={`${open ? 'bg-white w-5 h-screen basis-1/5 shadow-lg shadow-black mr-2 pt-2 relative':'hidden'} `}>
     <button className="mt-6 ml-8 mb-10 bg-blue-400 p-3 rounded-full">Add Project</button>
+
+    <CreateProject isOpen={isOpen} onClose={() => setIsOpen(false)}>
+        
+    </CreateProject>
+
+    
 
     <div className="bg-amber-800 m-2">
       <ListProject/>
