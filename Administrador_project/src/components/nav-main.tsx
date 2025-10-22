@@ -14,10 +14,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 
-import {
-  Bot
 
-} from "lucide-react"
 
 export function NavMain() {
 
@@ -35,7 +32,7 @@ export function NavMain() {
             <SidebarMenuItem>
               <CollapsibleTrigger asChild>
                 <SidebarMenuButton>
-                  <Bot></Bot>
+                  
                   <DialogDemo></DialogDemo>
 
                 </SidebarMenuButton>

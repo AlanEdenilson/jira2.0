@@ -6,11 +6,11 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogTitle,
-  DialogTrigger,
+  DialogTitle
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Bot } from "lucide-react"
 import { useState } from "react"
 
 export function DialogDemo() {
@@ -20,8 +20,11 @@ export function DialogDemo() {
 
 
   return (
+    <>
+    <Bot onClick={()=>{setOpen(!open)}}></Bot>
     <Dialog open={open} onOpenChange={setOpen} >
-      <form>
+      <form> 
+        
         
           <span   onClick={()=>{setOpen(!open)}}>Open Dialog</span>
         
@@ -53,5 +56,7 @@ export function DialogDemo() {
         </DialogContent>
       </form>
     </Dialog>
+    </>
+    
   )
 }
