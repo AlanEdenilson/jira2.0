@@ -11,14 +11,20 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { useState } from "react"
 
 export function DialogDemo() {
+
+  const [open, setOpen] = useState(false)
+
+
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen} >
       <form>
-        <DialogTrigger asChild>
-          <Button variant="outline">Open Dialog</Button>
-        </DialogTrigger>
+        
+          <span   onClick={()=>{setOpen(!open)}}>Open Dialog</span>
+        
 
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
