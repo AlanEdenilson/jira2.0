@@ -3,6 +3,7 @@
 import {
   Folder,
   Forward,
+  Frame,
   MoreHorizontal,
   Trash2,
   type LucideIcon,
@@ -25,14 +26,36 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar"
 
-export function NavProjects({
-  projects,
-}: {
-  projects: {
-    name: string
-    url: string
-    icon: LucideIcon
-  }[]
+enum ProjectStatus {
+  ACTIVO = "activo",
+  COMPLETADO = "completado",
+  CANCELADO = "cancelado",
+}
+
+
+interface Project {
+  id: number;
+
+  name: string;
+
+  description: string;
+
+  status: ProjectStatus;
+
+  color: string;
+
+  createdAt: Date;
+
+  updateAt: Date;
+
+  isActive: boolean;
+
+  icon?:LucideIcon
+
+}
+
+export function NavProjects({projects,}:{
+projects: Project[]
 }) {
   const { isMobile } = useSidebar()
 
@@ -41,10 +64,10 @@ export function NavProjects({
       <SidebarGroupLabel>Projects</SidebarGroupLabel>
       <SidebarMenu>
         {projects.map((item) => (
-          <SidebarMenuItem key={item.name}>
+          <SidebarMenuItem key={item.id}>
             <SidebarMenuButton asChild>
-              <a href={item.url}>
-                <item.icon />
+              <a href={item.name}>
+                <Frame style={{backgroundColor:item.color}}/>
                 <span>{item.name}</span>
               </a>
             </SidebarMenuButton>

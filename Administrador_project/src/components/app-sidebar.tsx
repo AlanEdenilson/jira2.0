@@ -8,6 +8,7 @@ import {
   GalleryVerticalEnd,
   Map,
   PieChart,
+  type LucideIcon,
 } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
@@ -23,6 +24,7 @@ import {
 } from "@/components/ui/sidebar";
 import { ProjectContext } from "@/context/context-Modal";
 import axios from "axios";
+import { set } from "zod";
 
 // This is sample data.
 const data = {
@@ -91,6 +93,8 @@ interface Project {
 
   isActive: boolean;
 
+  icon?:LucideIcon
+
 }
 
 interface Response {
@@ -103,6 +107,8 @@ interface Response {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const [valor, setValor] = React.useState(false);
+
+  const [projects, setProjects] = React.useState<Project[]>([]);
 
   React.useEffect(() => {
     async function fetchData() {
@@ -120,6 +126,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         );
 
         console.log("proyectos:", response.data);
+        setProjects(response.data.data);
       } catch (err) {
         console.error("Error al recibir los proyectos:", err);
       }
@@ -136,7 +143,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarHeader>
         <SidebarContent>
           <NavMain />
-          <NavProjects projects={data.projects} />
+          <NavProjects projects={projects} />
         </SidebarContent>
         <SidebarFooter>
           <NavUser user={data.user} />
