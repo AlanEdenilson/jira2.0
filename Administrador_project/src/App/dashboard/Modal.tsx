@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { AlertCircleIcon, Bot, CheckCircle2Icon } from "lucide-react";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { z } from "zod";
 
@@ -26,7 +26,8 @@ import {
 } from "@/components/ui/form";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
-import axios from "axios";
+import axios, { type AxiosResponse } from "axios";
+import { ProjectContext } from "@/context/context-Modal";
 
 interface Response{
   status: number
@@ -45,6 +46,14 @@ export function DialogDemo() {
   const [open, setOpen] = useState(false);
   
   const [showAlert, setShowAlert] = useState<Alert>({mensage:"", ok:false, type:'a'});
+
+  const context = useContext(ProjectContext);
+
+  if (!context){
+    throw new Error('a ocurrido un error al usar el esado del proyecto')
+  }
+
+  const {valor,setValor} = context
 
   // 1. Define validation schema
   const formSchema = z.object({
@@ -91,6 +100,7 @@ export function DialogDemo() {
 
         console.log("Datos enviados exitosamente:", response.data);
       } catch (err) {
+        
         setShowAlert({mensage:err?.code as string, ok:true, type:'e'})
 
         
@@ -100,6 +110,17 @@ export function DialogDemo() {
 
     enviarDatosConAxios();
   }
+
+  useEffect(() => {
+    if(showAlert.ok){
+      const timer = setTimeout(() => {
+        setShowAlert({mensage:"", ok:false, type:'a'})
+        setOpen(false);
+      }, 3000);
+  
+      return () => clearTimeout(timer);
+    }
+  }, [showAlert]);
 
   return (
     <>
