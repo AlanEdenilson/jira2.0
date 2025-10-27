@@ -114,7 +114,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     async function fetchData() {
       try {
         const response = await axios.get<Response>(
-          "https://jubilant-goldfish-v94q7qqrjwphwwpw-3000.app.github.dev/api/project",
+          "http://localhost:3000/api/project/?page=1&pageSize=10",
 
           {
             headers: {

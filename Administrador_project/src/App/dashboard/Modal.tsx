@@ -85,7 +85,7 @@ export function DialogDemo() {
     const enviarDatosConAxios = async () => {
       try {
         const response = await axios.post<Response>(
-          "https://jubilant-goldfish-v94q7qqrjwphwwpw-3000.app.github.dev/api/project",
+          "http://localhost:3000/api/project",
           { ...values },
           {
             headers: {
