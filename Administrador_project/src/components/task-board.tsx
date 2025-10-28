@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from "react"
 import { TaskCard } from "./task-card"
 import axios from "axios"
 import { ContextProvider, ContextTask } from "@/context/context-Modal"
+import { email } from "zod"
 
 
 export type Task = {
@@ -15,6 +16,21 @@ export type Task = {
   status: "completado" | "enproceso" 
 }
 
+
+
+export interface Users{
+  
+      id: number,
+      name: string,
+      image: string,
+      isActive: boolean,
+      createdAt: string,
+      updaeAt: string
+      initials?: string;
+      email?:string
+   
+}
+
 const initialTasks: Task[] = [
   { id: "1", title: "gggg", taskId: "PRAC-4", assignee: null, status: "completado" },
   
@@ -22,6 +38,10 @@ const initialTasks: Task[] = [
 
 export function TaskBoard({variant}: {variant: string}) {
   const [tasks, setTasks] = useState<Task[]>(initialTasks)
+  const [users,setUsers]= useState<Users[]| null>(null)
+
+
+  
 
   const contex2= useContext(ContextProvider);
   
@@ -42,6 +62,7 @@ export function TaskBoard({variant}: {variant: string}) {
   const updateTaskAssignee = (taskId: string, assignee: string | null) => {
     setTasks(tasks.map((task) => (task.id === taskId ? { ...task, assignee } : task)))
   }
+
 
 
   async function updateStatus(id:number,estado:string){
@@ -81,15 +102,33 @@ export function TaskBoard({variant}: {variant: string}) {
           }
         );
 
+        const response2 = await axios.get(
+          "http://localhost:3000/user",
+
+          {
+            headers: {
+              "Content-Type": "application/json",
+              // Puedes agregar más headers como tokens de autenticación:
+              // 'Authorization': `Bearer ${token}`
+            },
+          }
+        );
+
+        const person = response2.data.data.map(persona => ({
+              ...persona,
+              initials: persona.name[0] + persona.name[persona.name.length - 1],
+              email:persona.name+'@gamil.com'
+          }));
+
         console.log("task:", response.data);
+        console.log('usarios',response2.data)
         setTasks(response.data.data)
+        setUsers(person)
 
         
       } catch (err) {
         console.error("Error al recibir los proyectos:", err);
       }
-
-      
     }
 
     fetchTasks()
@@ -105,6 +144,7 @@ export function TaskBoard({variant}: {variant: string}) {
         <div className="space-y-3 p-1">
           {tasks.map((task) => (
             <TaskCard
+              user={users}
               key={task.id}
               task={task}
               onAssigneeChange={(assignee) => updateTaskAssignee(task.id, assignee)}

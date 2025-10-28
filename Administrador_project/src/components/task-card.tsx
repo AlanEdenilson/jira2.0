@@ -16,31 +16,26 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { MoreHorizontal, User } from "lucide-react"
-import type { Task } from "./task-board"
+import type { Task, Users } from "./task-board"
 import { DialogDemo2 } from "@/App/dashboard/DialogDemo2"
 
 type TaskCardProps = {
+  user:Users[] | null
   task: Task
   onAssigneeChange: (assignee: string | null) => void
   onStatusChange: (id:number,estado:string) => void
 }
 
 const users = [
-  { id: "1", name: "ALAN EDENILSON CAMPOS SA...", email: "cs25001@esfe.agape.edu.sv", initials: "AS" },
+  { id: "1", name: "ALAN EDENILSON CAMPOS SA...", email: "cs25001@esfe.agape.edu.sv", initials: "A2" },
   { id: "2", name: "Marvin Antonio Barrera trigueros", email: "marvin@example.com", initials: "MB" },
   { id: "3", name: "Jazmin lue", email: "jazmin@example.com", initials: "JL" },
 ]
 
-export function TaskCard({ task, onAssigneeChange, onStatusChange }: TaskCardProps) {
+export function TaskCard({ user,task, onAssigneeChange, onStatusChange }: TaskCardProps) {
   const [isAssigneeOpen, setIsAssigneeOpen] = useState(false)
   const assignedUser = users.find((u) => u.id === task.assignee)
 
-  
-
-
-  
-
- 
 
   return (
     <Card className="group relative border border-border bg-card p-3 transition-shadow hover:shadow-md">
@@ -106,12 +101,12 @@ export function TaskCard({ task, onAssigneeChange, onStatusChange }: TaskCardPro
                   <User className="h-4 w-4 text-muted-foreground" />
                   <span className="text-foreground">Automático</span>
                 </button>
-                {users.map((user) => (
+                {user&&user.map((user) => (
                   <button
                     key={user.id}
                     className="flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm hover:bg-accent"
                     onClick={() => {
-                      onAssigneeChange(user.id)
+                      onAssigneeChange(user.id.toString())
                       setIsAssigneeOpen(false)
                     }}
                   >
