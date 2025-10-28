@@ -97,6 +97,7 @@ export function DialogDemo() {
         );
 
         setShowAlert({mensage:response.data.message, ok:response.data.ok, type:'a'})
+        
 
         console.log("Datos enviados exitosamente:", response.data);
       } catch (err) {
@@ -116,6 +117,7 @@ export function DialogDemo() {
       const timer = setTimeout(() => {
         setShowAlert({mensage:"", ok:false, type:'a'})
         setOpen(false);
+        setValor(!valor)
       }, 3000);
   
       return () => clearTimeout(timer);
