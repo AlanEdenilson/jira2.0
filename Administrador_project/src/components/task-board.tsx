@@ -79,6 +79,21 @@ export function TaskBoard({variant}: {variant: string}) {
       }
   }
 
+  async function borrar(taskId: string){
+    try {
+        const response = await axios.delete(
+          "http://localhost:3000/api/task/"+taskId,
+      
+  
+        );
+        console.log("borrado exitosamente:", response.data);
+        setValue(!value);
+        
+      } catch (err) {
+        console.error("Error al recibir actualizar estado:", err);
+      }
+  }
+
 
 
   async function updateStatus(id:number,estado:string){
@@ -165,6 +180,7 @@ export function TaskBoard({variant}: {variant: string}) {
               task={task}
               onAssigneeChange={(assignee) => updateTaskAssignee(task.id, assignee)}
               onStatusChange={updateStatus}
+              clear={borrar}
             />
           ))}
         </div>

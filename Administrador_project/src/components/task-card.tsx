@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import { MoreHorizontal, User } from "lucide-react"
+import { MoreHorizontal,Trash2, User } from "lucide-react"
 import type { Task, Users } from "./task-board"
 import { DialogDemo2 } from "@/App/dashboard/DialogDemo2"
 
@@ -24,10 +24,12 @@ type TaskCardProps = {
   task: Task
   onAssigneeChange: (assignee: string | null) => void
   onStatusChange: (id:number,estado:string) => void
+  clear:(taskId:string)=>void
+  
 }
 
 
-export function TaskCard({ user,task, onAssigneeChange, onStatusChange }: TaskCardProps) {
+export function TaskCard({ user,task, onAssigneeChange, onStatusChange,clear }: TaskCardProps) {
   const [isAssigneeOpen, setIsAssigneeOpen] = useState(false)
   const assignedUser = user?.find((u) => u.id === task.user?.id)
 
@@ -137,7 +139,7 @@ export function TaskCard({ user,task, onAssigneeChange, onStatusChange }: TaskCa
                   <DropdownMenuItem onClick={()=>{onStatusChange(+task.id,'completado')}}>Completado</DropdownMenuItem>
                 </DropdownMenuSubContent>
               </DropdownMenuSub>
-              <DropdownMenuItem>Copiar enlace</DropdownMenuItem>
+              <DropdownMenuItem onClick={()=>{clear(task.id)}}> eliminar <Trash2  className="h-4 w-4 text-blue-600 dark:text-sky-400" /></DropdownMenuItem>
               
             </DropdownMenuContent>
           </DropdownMenu>
