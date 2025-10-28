@@ -9,13 +9,14 @@ import { ContextProvider, ContextTask } from "@/context/context-Modal"
 export type Task = {
   id: string
   title: string
+  description?:string
   taskId: string
   assignee: string | null
-  status: "en-curso" | "lista" | "finalizada"
+  status: "completado" | "enproceso" 
 }
 
 const initialTasks: Task[] = [
-  { id: "1", title: "gggg", taskId: "PRAC-4", assignee: null, status: "en-curso" },
+  { id: "1", title: "gggg", taskId: "PRAC-4", assignee: null, status: "completado" },
   
 ]
 
@@ -42,8 +43,25 @@ export function TaskBoard({variant}: {variant: string}) {
     setTasks(tasks.map((task) => (task.id === taskId ? { ...task, assignee } : task)))
   }
 
-  const updateTaskStatus = (taskId: string, status: Task["status"]) => {
-    setTasks(tasks.map((task) => (task.id === taskId ? { ...task, status } : task)))
+
+  async function updateStatus(id:number,estado:string){
+      try {
+        const response = await axios.patch(
+          "http://localhost:3000/api/task/"+id,
+          { "status":estado },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        console.log("actualizando estado:", response.data);
+        setValue(!value);
+        
+      } catch (err) {
+        console.error("Error al recibir actualizar estado:", err);
+      }
+    
   }
 
 
@@ -90,7 +108,7 @@ export function TaskBoard({variant}: {variant: string}) {
               key={task.id}
               task={task}
               onAssigneeChange={(assignee) => updateTaskAssignee(task.id, assignee)}
-              onStatusChange={(status) => updateTaskStatus(task.id, status)}
+              onStatusChange={updateStatus}
             />
           ))}
         </div>

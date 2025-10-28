@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -13,25 +13,65 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import type { Task } from "@/components/task-board"
+import axios from "axios"
+import { ContextTask } from "@/context/context-Modal"
+import { set } from "zod"
 
-export  function DialogDemo2() {
+export  function DialogDemo2({variant,task}: {variant: string,task:Task}) {
   const [open, setOpen] = useState(false)
-  const [title, setTitle] = useState("Completar documentación")
-  const [description, setDescription] = useState("Revisar y actualizar la documentación del proyecto")
-  const [status, setStatus] = useState("EN_PROCESO")
+  const [title, setTitle] = useState(task.title)
+  const [description, setDescription] = useState(task.description || "")
+  const [status, setStatus] = useState("enproceso")
 
-  const handleSave = () => {
+   const contex2= useContext(ContextTask);
+      
+        if(contex2==null){
+         throw new Error("Contexto no disponible");
+        }
+      
+        const {value,setValue} = contex2 ;
+
+ 
+
+  const handleSave = async () => {
     console.log("[v0] Saving task:", { title, description, status })
-    setOpen(false)
+    try {
+        const response = await axios.patch(
+          "http://localhost:3000/api/task/"+task.id,
+          { title, description, status },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        console.log("Datos enviados exitosamente:", response.data);
+        setOpen(false)
+        setValue(!value);
+        
+      } catch (error) {
+        console.error('Error de red:', error);
+      } 
+    
   }
 
+  
   return (
     <>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button size="lg">Editar Tarea</Button>
+          <h3 className="text-sm font-medium text-foreground">{variant}</h3>
         </DialogTrigger>
         <DialogContent className="max-w-2xl">
           <DialogHeader>
@@ -76,17 +116,19 @@ export  function DialogDemo2() {
             <div className="space-y-2">
               <Label htmlFor="status">Estado</Label>
               <Select value={status} onValueChange={setStatus}>
-                <SelectTrigger id="status">
-                  <SelectValue placeholder="Selecciona un estado" />
+                <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Select a status" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="EN_PROCESO">En Proceso</SelectItem>
-                  <SelectItem value="COMPLETADA">Completada</SelectItem>
-                  <SelectItem value="PENDIENTE">Pendiente</SelectItem>
-                  <SelectItem value="CANCELADA">Cancelada</SelectItem>
+                    <SelectGroup>
+                    <SelectLabel>estado</SelectLabel>
+                    <SelectItem value="completado">completado</SelectItem>
+                    <SelectItem value="enproceso">enproceso</SelectItem>
+                  
+                    </SelectGroup>
                 </SelectContent>
-              </Select>
-            </div>
+                </Select>
+                        </div>
           </div>
 
           <DialogFooter>

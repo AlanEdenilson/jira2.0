@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Card } from "@/components/ui/card"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Button } from "@/components/ui/button"
@@ -22,7 +22,7 @@ import { DialogDemo2 } from "@/App/dashboard/DialogDemo2"
 type TaskCardProps = {
   task: Task
   onAssigneeChange: (assignee: string | null) => void
-  onStatusChange: (status: Task["status"]) => void
+  onStatusChange: (id:number,estado:string) => void
 }
 
 const users = [
@@ -35,13 +35,20 @@ export function TaskCard({ task, onAssigneeChange, onStatusChange }: TaskCardPro
   const [isAssigneeOpen, setIsAssigneeOpen] = useState(false)
   const assignedUser = users.find((u) => u.id === task.assignee)
 
+  
+
+
+  
+
+ 
+
   return (
     <Card className="group relative border border-border bg-card p-3 transition-shadow hover:shadow-md">
       <div className="flex items-start justify-between gap-3">
         <div className="flex flex-1 items-start gap-3">
         
           <div className="flex-1 space-y-2">
-            <DialogDemo2 variant={task.title}></DialogDemo2>
+            <DialogDemo2 variant={task.title} task={task}></DialogDemo2>
             
             <div className="flex items-center gap-2">
               <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
@@ -136,8 +143,8 @@ export function TaskCard({ task, onAssigneeChange, onStatusChange }: TaskCardPro
               <DropdownMenuSub>
                 <DropdownMenuSubTrigger>Cambiar estado</DropdownMenuSubTrigger>
                 <DropdownMenuSubContent>
-                  <DropdownMenuItem>En progreso</DropdownMenuItem>
-                  <DropdownMenuItem>Completado</DropdownMenuItem>
+                  <DropdownMenuItem onClick={()=>{onStatusChange(+task.id,'enproceso')}}>En progreso</DropdownMenuItem>
+                  <DropdownMenuItem onClick={()=>{onStatusChange(+task.id,'completado')}}>Completado</DropdownMenuItem>
                 </DropdownMenuSubContent>
               </DropdownMenuSub>
               <DropdownMenuItem>Copiar enlace</DropdownMenuItem>
