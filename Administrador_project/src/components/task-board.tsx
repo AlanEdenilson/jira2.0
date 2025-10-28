@@ -163,7 +163,7 @@ export function TaskBoard({variant}: {variant: string}) {
     }
 
     fetchTasks()
-  },[value])
+  },[value,id])
 
 
   

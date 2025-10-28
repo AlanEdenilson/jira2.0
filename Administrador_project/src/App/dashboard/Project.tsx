@@ -53,6 +53,8 @@ const Project = () => {
 
   const {id,setId} = contex ;
 
+  console.log("proyecto actual"+id)
+
    useEffect(() => {
 
 
