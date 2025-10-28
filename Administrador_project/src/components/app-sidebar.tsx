@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/sidebar";
 import { ProjectContext } from "@/context/context-Modal";
 import axios from "axios";
-import { set } from "zod";
+
 
 // This is sample data.
 const data = {
@@ -97,7 +97,7 @@ interface Project {
 
 }
 
-interface Response {
+export interface Response {
   data: Project[];
   message: string;
   ok: boolean;
@@ -109,6 +109,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const [valor, setValor] = React.useState(false);
 
   const [projects, setProjects] = React.useState<Project[]>([]);
+
+ 
 
   React.useEffect(() => {
     async function fetchData() {
@@ -134,6 +136,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
     fetchData();
   }, []);
+
+
 
   return (
     <ProjectContext.Provider value={{ valor, setValor }}>

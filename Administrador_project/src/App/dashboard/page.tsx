@@ -14,9 +14,17 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar"
 import Project from "./Project"
+import { ContextProvider } from "@/context/context-Modal"
+import { useState } from "react"
 
 export default function Page() {
+  const [id,setId] = useState<number | null>(null)
+  
+
+
+
   return (
+    <ContextProvider.Provider value={{id,setId}}>
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
@@ -49,5 +57,6 @@ export default function Page() {
         </div>
       </SidebarInset>
     </SidebarProvider>
+    </ContextProvider.Provider>
   )
 }

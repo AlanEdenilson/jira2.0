@@ -25,6 +25,9 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
+import React from "react";
+import { ContextProvider } from "@/context/context-Modal";
+import { set } from "zod";
 
 enum ProjectStatus {
   ACTIVO = "activo",
@@ -59,6 +62,14 @@ projects: Project[]
 }) {
   const { isMobile } = useSidebar()
 
+   const contex= React.useContext(ContextProvider);
+  
+    if(contex==null){
+     throw new Error("Contexto no disponible");
+    }
+  
+    const {id,setId} = contex ;
+
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
       <SidebarGroupLabel>Projects</SidebarGroupLabel>
@@ -66,10 +77,10 @@ projects: Project[]
         {projects.map((item) => (
           <SidebarMenuItem key={item.id}>
             <SidebarMenuButton asChild>
-              <a href={item.name}>
+              <span onClick={()=>{setId(item.id)}}>
                 <Frame style={{backgroundColor:item.color}}/>
                 <span>{item.name}</span>
-              </a>
+              </span>
             </SidebarMenuButton>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>

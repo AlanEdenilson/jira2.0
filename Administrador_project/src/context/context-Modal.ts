@@ -23,7 +23,7 @@ interface estado{
 
 interface GloblasProyect{
   id : number| null
-  setValor: React.Dispatch<React.SetStateAction<number| null >>
+  setId: React.Dispatch<React.SetStateAction<number| null >>
 }
 
 
