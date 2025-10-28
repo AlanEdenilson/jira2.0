@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import {  useState } from "react"
 import { Card } from "@/components/ui/card"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Button } from "@/components/ui/button"
@@ -26,15 +26,10 @@ type TaskCardProps = {
   onStatusChange: (id:number,estado:string) => void
 }
 
-const users = [
-  { id: "1", name: "ALAN EDENILSON CAMPOS SA...", email: "cs25001@esfe.agape.edu.sv", initials: "A2" },
-  { id: "2", name: "Marvin Antonio Barrera trigueros", email: "marvin@example.com", initials: "MB" },
-  { id: "3", name: "Jazmin lue", email: "jazmin@example.com", initials: "JL" },
-]
 
 export function TaskCard({ user,task, onAssigneeChange, onStatusChange }: TaskCardProps) {
   const [isAssigneeOpen, setIsAssigneeOpen] = useState(false)
-  const assignedUser = users.find((u) => u.id === task.assignee)
+  const assignedUser = user?.find((u) => u.id === task.user?.id)
 
 
   return (

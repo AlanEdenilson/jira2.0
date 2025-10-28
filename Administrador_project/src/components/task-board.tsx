@@ -14,6 +14,7 @@ export type Task = {
   taskId: string
   assignee: string | null
   status: "completado" | "enproceso" 
+  user:Users | null
 }
 
 
@@ -32,7 +33,7 @@ export interface Users{
 }
 
 const initialTasks: Task[] = [
-  { id: "1", title: "gggg", taskId: "PRAC-4", assignee: null, status: "completado" },
+  { id: "1", title: "gggg", taskId: "PRAC-4", assignee: null, status: "completado",user:null },
   
 ]
 
@@ -59,8 +60,23 @@ export function TaskBoard({variant}: {variant: string}) {
   
     const {value,setValue} = contex ;
 
-  const updateTaskAssignee = (taskId: string, assignee: string | null) => {
-    setTasks(tasks.map((task) => (task.id === taskId ? { ...task, assignee } : task)))
+  async function updateTaskAssignee (taskId: string, assignee: string | null){
+    try {
+        const response = await axios.patch(
+          "http://localhost:3000/api/task/"+taskId,
+          { "userId":assignee&&+assignee },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        console.log("actualizando usuario:", response.data);
+        setValue(!value);
+        
+      } catch (err) {
+        console.error("Error al recibir actualizar estado:", err);
+      }
   }
 
 
