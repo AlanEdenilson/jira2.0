@@ -163,9 +163,9 @@ const Project = () => {
       </div>
 
       <div className="bg-muted/50 h-90 min-h-90  rounded-xl   flex  gap-5 pl-10 pt-10">
-        <ScrollAreaDemo></ScrollAreaDemo>
+        <ScrollAreaDemo variante="completado" titulo="completado"></ScrollAreaDemo>
 
-        <ScrollAreaDemo></ScrollAreaDemo>
+        <ScrollAreaDemo variante="enproceso" titulo="enproceso"></ScrollAreaDemo>
       </div>
     </>
   );

@@ -14,17 +14,19 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar"
 import Project from "./Project"
-import { ContextProvider } from "@/context/context-Modal"
+import { ContextProvider, ContextTask } from "@/context/context-Modal"
 import { useState } from "react"
 
 export default function Page() {
   const [id,setId] = useState<number | null>(null)
+  const [value,setValue] = useState<boolean>(false)
   
 
 
 
   return (
     <ContextProvider.Provider value={{id,setId}}>
+      <ContextTask.Provider value={{value,setValue}}>
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
@@ -57,6 +59,7 @@ export default function Page() {
         </div>
       </SidebarInset>
     </SidebarProvider>
+    </ContextTask.Provider>
     </ContextProvider.Provider>
   )
 }

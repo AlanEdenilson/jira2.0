@@ -1,0 +1,159 @@
+"use client"
+
+import { useState } from "react"
+import { Card } from "@/components/ui/card"
+import { Checkbox } from "@/components/ui/checkbox"
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { MoreHorizontal, User } from "lucide-react"
+import type { Task } from "./task-board"
+
+type TaskCardProps = {
+  task: Task
+  onAssigneeChange: (assignee: string | null) => void
+  onStatusChange: (status: Task["status"]) => void
+}
+
+const users = [
+  { id: "1", name: "ALAN EDENILSON CAMPOS SA...", email: "cs25001@esfe.agape.edu.sv", initials: "AS" },
+  { id: "2", name: "Marvin Antonio Barrera trigueros", email: "marvin@example.com", initials: "MB" },
+  { id: "3", name: "Jazmin lue", email: "jazmin@example.com", initials: "JL" },
+]
+
+export function TaskCard({ task, onAssigneeChange, onStatusChange }: TaskCardProps) {
+  const [isAssigneeOpen, setIsAssigneeOpen] = useState(false)
+  const assignedUser = users.find((u) => u.id === task.assignee)
+
+  return (
+    <Card className="group relative border border-border bg-card p-3 transition-shadow hover:shadow-md">
+      <div className="flex items-start justify-between gap-3">
+        <div className="flex flex-1 items-start gap-3">
+        
+          <div className="flex-1 space-y-2">
+            <h3 className="text-sm font-medium text-foreground">{task.title}</h3>
+            <div className="flex items-center gap-2">
+              <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
+                <Checkbox className="h-3 w-3" checked />
+                {'PRAC-'+task.id}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <Popover open={isAssigneeOpen} onOpenChange={setIsAssigneeOpen}>
+            <PopoverTrigger asChild>
+              <Button variant="ghost" size="sm" className="h-8 w-8 rounded-full p-0">
+                {assignedUser ? (
+                  <Avatar className="h-8 w-8">
+                    <AvatarFallback className="bg-orange-500 text-xs text-white">
+                      {assignedUser.initials}
+                    </AvatarFallback>
+                  </Avatar>
+                ) : (
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-muted">
+                    <User className="h-4 w-4 text-muted-foreground" />
+                  </div>
+                )}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-80 p-0" align="end">
+              <div className="border-b border-border p-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <User className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-sm font-medium text-foreground">
+                      {assignedUser ? assignedUser.name : "Sin asignar"}
+                    </span>
+                  </div>
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    className="h-7 text-xs"
+                    onClick={() => setIsAssigneeOpen(false)}
+                  >
+                    Sin asignar
+                  </Button>
+                </div>
+              </div>
+              <div className="p-2">
+                <button
+                  className="flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm hover:bg-accent"
+                  onClick={() => {
+                    onAssigneeChange(null)
+                    setIsAssigneeOpen(false)
+                  }}
+                >
+                  <User className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-foreground">Automático</span>
+                </button>
+                {users.map((user) => (
+                  <button
+                    key={user.id}
+                    className="flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm hover:bg-accent"
+                    onClick={() => {
+                      onAssigneeChange(user.id)
+                      setIsAssigneeOpen(false)
+                    }}
+                  >
+                    <Avatar className="h-6 w-6">
+                      <AvatarFallback className="bg-orange-500 text-xs text-white">{user.initials}</AvatarFallback>
+                    </Avatar>
+                    <div className="flex flex-col items-start">
+                      <span className="font-medium text-foreground">{user.name}</span>
+                      <span className="text-xs text-muted-foreground">{user.email}</span>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </PopoverContent>
+          </Popover>
+
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100"
+              >
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-48">
+              <DropdownMenuSub>
+                <DropdownMenuSubTrigger>Mover actividad</DropdownMenuSubTrigger>
+                <DropdownMenuSubContent>
+                  <DropdownMenuItem onClick={() => onStatusChange("en-curso")}>En curso</DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => onStatusChange("lista")}>Lista</DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => onStatusChange("finalizada")}>Finalizada</DropdownMenuItem>
+                </DropdownMenuSubContent>
+              </DropdownMenuSub>
+              <DropdownMenuSub>
+                <DropdownMenuSubTrigger>Cambiar estado</DropdownMenuSubTrigger>
+                <DropdownMenuSubContent>
+                  <DropdownMenuItem>Abierto</DropdownMenuItem>
+                  <DropdownMenuItem>En progreso</DropdownMenuItem>
+                  <DropdownMenuItem>Completado</DropdownMenuItem>
+                </DropdownMenuSubContent>
+              </DropdownMenuSub>
+              <DropdownMenuItem>Copiar enlace</DropdownMenuItem>
+              <DropdownMenuItem>Copiar clave</DropdownMenuItem>
+              <DropdownMenuItem>Añadir marca</DropdownMenuItem>
+              <DropdownMenuItem>Añadir etiqueta</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      </div>
+    </Card>
+  )
+}

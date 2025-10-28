@@ -30,3 +30,13 @@ interface GloblasProyect{
 
 export const  ContextProvider  = React.createContext<GloblasProyect|null>(null)
 
+
+interface task{
+  value : boolean
+  setValue: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+
+export const  ContextTask  = React.createContext<task|null>(null)
+
+
