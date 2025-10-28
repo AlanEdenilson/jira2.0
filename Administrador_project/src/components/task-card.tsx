@@ -17,6 +17,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { MoreHorizontal, User } from "lucide-react"
 import type { Task } from "./task-board"
+import { DialogDemo2 } from "@/App/dashboard/DialogDemo2"
 
 type TaskCardProps = {
   task: Task
@@ -40,7 +41,8 @@ export function TaskCard({ task, onAssigneeChange, onStatusChange }: TaskCardPro
         <div className="flex flex-1 items-start gap-3">
         
           <div className="flex-1 space-y-2">
-            <h3 className="text-sm font-medium text-foreground">{task.title}</h3>
+            <DialogDemo2 variant={task.title}></DialogDemo2>
+            
             <div className="flex items-center gap-2">
               <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
                 <Checkbox className="h-3 w-3" checked />
@@ -130,26 +132,16 @@ export function TaskCard({ task, onAssigneeChange, onStatusChange }: TaskCardPro
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-48">
-              <DropdownMenuSub>
-                <DropdownMenuSubTrigger>Mover actividad</DropdownMenuSubTrigger>
-                <DropdownMenuSubContent>
-                  <DropdownMenuItem onClick={() => onStatusChange("en-curso")}>En curso</DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => onStatusChange("lista")}>Lista</DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => onStatusChange("finalizada")}>Finalizada</DropdownMenuItem>
-                </DropdownMenuSubContent>
-              </DropdownMenuSub>
+              
               <DropdownMenuSub>
                 <DropdownMenuSubTrigger>Cambiar estado</DropdownMenuSubTrigger>
                 <DropdownMenuSubContent>
-                  <DropdownMenuItem>Abierto</DropdownMenuItem>
                   <DropdownMenuItem>En progreso</DropdownMenuItem>
                   <DropdownMenuItem>Completado</DropdownMenuItem>
                 </DropdownMenuSubContent>
               </DropdownMenuSub>
               <DropdownMenuItem>Copiar enlace</DropdownMenuItem>
-              <DropdownMenuItem>Copiar clave</DropdownMenuItem>
-              <DropdownMenuItem>Añadir marca</DropdownMenuItem>
-              <DropdownMenuItem>Añadir etiqueta</DropdownMenuItem>
+              
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
