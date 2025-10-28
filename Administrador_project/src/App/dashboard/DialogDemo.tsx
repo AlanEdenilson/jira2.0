@@ -31,7 +31,9 @@ export function DialogDemo({variant}:{variant:string}) {
     }
 
       
-    const {id} = contex;
+    const {id,setId} = contex;
+
+
     const [data, setData] = useState({
       title: "",
       description: "",
@@ -48,19 +50,20 @@ export function DialogDemo({variant}:{variant:string}) {
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      console.log("Datos a enviar:", data);
+      console.log("Datos a enviar:", { ...data,projectId:id });
 
       try {
+         
         const response = await axios.post(
           "http://localhost:3000/api/task",
-          { ...data },
+          { ...data,projectId:id },
           {
             headers: {
               "Content-Type": "application/json",
             },
           }
         );
-        console.log("Datos enviados exitosamente:", response.data);
+       
         setValue(!value);
         setOpen(false); // Cerrar el diálogo después de enviar
         setData({ // Limpiar el formulario
