@@ -22,7 +22,7 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import { ProjectContext } from "@/context/context-Modal";
+import { ContextProject, ProjectContext } from "@/context/context-Modal";
 import axios from "axios";
 
 
@@ -108,7 +108,13 @@ export interface Response {
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const [valor, setValor] = React.useState(false);
 
-  const [projects, setProjects] = React.useState<Project[]>([]);
+  const contex= React.useContext(ContextProject);
+
+  
+  
+   
+  
+    const {projects,setProjects} = contex;
 
  
 

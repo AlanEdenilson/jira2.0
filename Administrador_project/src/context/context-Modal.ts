@@ -1,5 +1,5 @@
 import React, { createContext } from 'react';
-import type { ProyectsAndTask } from './type/Types';
+
 
 interface ModalContextProps {
   isOpen: boolean;
@@ -26,6 +26,33 @@ interface GloblasProyect{
   setId: React.Dispatch<React.SetStateAction<number| null >>
 }
 
+enum ProjectStatus {
+  ACTIVO = "activo",
+  COMPLETADO = "completado",
+  CANCELADO = "cancelado",
+}
+
+interface Project {
+  id: number;
+
+  name: string;
+
+  description: string;
+
+  status: ProjectStatus;
+
+  color: string;
+
+  createdAt: Date;
+
+  updateAt: Date;
+
+  isActive: boolean;
+
+   task: [];
+
+
+}
 
 
 export const  ContextProvider  = React.createContext<GloblasProyect|null>(null)
@@ -38,5 +65,12 @@ interface task{
 
 
 export const  ContextTask  = React.createContext<task|null>(null)
+
+interface Proyecto{
+  projects : Project[] | []
+  setProjects: React.Dispatch<React.SetStateAction<Project[] | []>>
+}
+
+export const ContextProject = React.createContext<Proyecto | null>(null)
 
 

@@ -13,13 +13,49 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar"
-import Project from "./Project"
-import { ContextProvider, ContextTask } from "@/context/context-Modal"
+import { ContextProject, ContextProvider, ContextTask } from "@/context/context-Modal"
 import { useState } from "react"
+import Project from "./Project"
+
+enum ProjectStatus {
+  ACTIVO = "activo",
+  COMPLETADO = "completado",
+  CANCELADO = "cancelado",
+}
+
+interface Projects {
+  id: number;
+
+  name: string;
+
+  description: string;
+
+  status: ProjectStatus;
+
+  color: string;
+
+  createdAt: Date;
+
+  updateAt: Date;
+
+  isActive: boolean;
+
+  task:[]
+
+}
+
+export interface Response {
+  data: Project[];
+  message: string;
+  ok: boolean;
+  status: number;
+  total: number;
+}
 
 export default function Page() {
-  const [id,setId] = useState<number | null>(null)
-  const [value,setValue] = useState<boolean>(false)
+  const [id,setId] = useState<number | null>(null);
+  const [value,setValue] = useState<boolean>(false);
+  const [projects, setProjects] = useState<Projects[]|[]>([]);
   
 
 
@@ -27,6 +63,7 @@ export default function Page() {
   return (
     <ContextProvider.Provider value={{id,setId}}>
       <ContextTask.Provider value={{value,setValue}}>
+        <ContextProject.Provider value={{projects,setProjects}}>
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
@@ -59,6 +96,7 @@ export default function Page() {
         </div>
       </SidebarInset>
     </SidebarProvider>
+    </ContextProject.Provider>
     </ContextTask.Provider>
     </ContextProvider.Provider>
   )
