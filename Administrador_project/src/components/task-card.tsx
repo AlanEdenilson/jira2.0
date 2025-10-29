@@ -40,7 +40,8 @@ export function TaskCard({ user,task, onAssigneeChange, onStatusChange,clear }: 
         <div className="flex flex-1 items-start gap-3">
         
           <div className="flex-1 space-y-2">
-            <DialogDemo2 variant={task.title} task={task} estado={task.status}></DialogDemo2>
+            {task.status === 'enproceso' ? <h3 className="text-sm font-medium text-foreground line-through">{task.title}</h3>:<DialogDemo2 variant={task.title} task={task} estado={task.status}></DialogDemo2>}
+            
             
             <div className="flex items-center gap-2">
               <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
