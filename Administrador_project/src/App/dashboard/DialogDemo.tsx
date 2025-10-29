@@ -69,7 +69,7 @@ export function DialogDemo({variant}:{variant:string}) {
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       console.log('proyecto selecionado'+projecto)
-      console.log("Datos a enviar:", { ...data,projectId:id });
+     
 
       let datos;
 
@@ -78,6 +78,8 @@ export function DialogDemo({variant}:{variant:string}) {
       } else {
         datos={ ...data,projectId:parseInt(projecto )}
       }
+
+      console.log(datos)
 
       
 
