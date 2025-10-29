@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
-import { useContext, useState } from "react"
-import { Button } from "@/components/ui/button"
+import { useContext, useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -10,63 +10,69 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import type { Task } from "@/components/task-board"
-import axios from "axios"
-import { ContextTask } from "@/context/context-Modal"
-import { set } from "zod"
+} from "@/components/ui/select";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import type { Task } from "@/components/task-board";
+import axios from "axios";
+import { ContextTask } from "@/context/context-Modal";
+import { set } from "zod";
 
-export  function DialogDemo2({variant,task}: {variant: string,task:Task}) {
-  const [open, setOpen] = useState(false)
-  const [title, setTitle] = useState(task.title)
-  const [description, setDescription] = useState(task.description || "")
-  const [status, setStatus] = useState("enproceso")
+export function DialogDemo2({
+  variant,
+  task,
+  estado,
+}: {
+  variant: string;
+  task: Task;
+  estado:string
+}) {
+  const [open, setOpen] = useState(false);
+  const [title, setTitle] = useState(task.title);
+  const [description, setDescription] = useState(task.description || "");
+  const [status, setStatus] = useState("enproceso");
 
-   const contex2= useContext(ContextTask);
-      
-        if(contex2==null){
-         throw new Error("Contexto no disponible");
-        }
-      
-        const {value,setValue} = contex2 ;
+  const contex2 = useContext(ContextTask);
 
- 
-
-  const handleSave = async () => {
-    console.log("[v0] Saving task:", { title, description, status })
-    try {
-        const response = await axios.patch(
-          "http://localhost:3000/api/task/"+task.id,
-          { title, description, status },
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        console.log("Datos enviados exitosamente:", response.data);
-        setOpen(false)
-        setValue(!value);
-        
-      } catch (error) {
-        console.error('Error de red:', error);
-      } 
-    
+  if (contex2 == null) {
+    throw new Error("Contexto no disponible");
   }
 
-  
+  const { value, setValue } = contex2;
+
+  const handleSave = async () => {
+    console.log("[v0] Saving task:", { title, description, status });
+    try {
+      const response = await axios.patch(
+        "http://localhost:3000/api/task/" + task.id,
+        { title, description, status },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log("Datos enviados exitosamente:", response.data);
+      setOpen(false);
+      setValue(!value);
+    } catch (error) {
+      console.error("Error de red:", error);
+    }
+  };
+  useEffect(() => {
+    console.log('estatus antes'+status)
+    setStatus(estado);
+    console.log('estatus despues'+status)
+  }, [open]);
+
   return (
     <>
       <Dialog open={open} onOpenChange={setOpen}>
@@ -79,12 +85,16 @@ export  function DialogDemo2({variant,task}: {variant: string,task:Task}) {
               <div className="flex-1">
                 <DialogTitle>Editar Tarea</DialogTitle>
                 <DialogDescription>
-                  Modifica los detalles de la tarea. Haz clic en guardar cuando termines.
+                  Modifica los detalles de la tarea. Haz clic en guardar cuando
+                  termines.
                 </DialogDescription>
               </div>
               <div className="flex items-center gap-2">
                 <Avatar className="h-8 w-8">
-                  <AvatarImage src="/professional-person.png" alt="María García" />
+                  <AvatarImage
+                    src="/professional-person.png"
+                    alt="María García"
+                  />
                   <AvatarFallback>MG</AvatarFallback>
                 </Avatar>
                 <p className="text-sm font-medium">María García</p>
@@ -117,18 +127,14 @@ export  function DialogDemo2({variant,task}: {variant: string,task:Task}) {
               <Label htmlFor="status">Estado</Label>
               <Select value={status} onValueChange={setStatus}>
                 <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Select a status" />
+                  <SelectValue placeholder="Select a status" />
                 </SelectTrigger>
                 <SelectContent>
-                    <SelectGroup>
-                    <SelectLabel>estado</SelectLabel>
-                    <SelectItem value="completado">completado</SelectItem>
-                    <SelectItem value="enproceso">enproceso</SelectItem>
-                  
-                    </SelectGroup>
+                  <SelectItem value="completado">completado</SelectItem>
+                  <SelectItem value="enproceso">enproceso</SelectItem>
                 </SelectContent>
-                </Select>
-                        </div>
+              </Select>
+            </div>
           </div>
 
           <DialogFooter>
@@ -140,5 +146,5 @@ export  function DialogDemo2({variant,task}: {variant: string,task:Task}) {
         </DialogContent>
       </Dialog>
     </>
-  )
+  );
 }
