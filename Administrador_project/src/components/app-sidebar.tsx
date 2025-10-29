@@ -109,9 +109,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const [valor, setValor] = React.useState(false);
 
   const contex= React.useContext(ContextProject);
-
-  
-  
    
   
     const {projects,setProjects} = contex;

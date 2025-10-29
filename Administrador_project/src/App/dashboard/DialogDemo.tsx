@@ -1,5 +1,12 @@
 import { Button } from "@/components/ui/button";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -10,21 +17,32 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ContextProvider, ContextTask } from "@/context/context-Modal";
+import { ContextProject, ContextProvider, ContextTask } from "@/context/context-Modal";
 import axios from "axios";
-import React, { ChangeEvent, FormEvent, useContext, useState } from "react";
+import React, { ChangeEvent, FormEvent, useContext, useEffect, useState } from "react";
 
 export function DialogDemo({variant}:{variant:string}) {
     const contex = React.useContext(ContextProvider);
+    const contex3 = React.useContext(ContextProject);
+       
+      
     const [open, setOpen] = useState(false);
+    const [projecto, setProjecto] = useState('0');
 
     const contex2= useContext(ContextTask);
     
       if(contex2==null){
        throw new Error("Contexto no disponible");
       }
+
+      if(contex3==null){
+       throw new Error("Contexto no disponible");
+      }
     
       const {value,setValue} = contex2 ;
+
+      const {projects,setProjects} = contex3;
+     
       
     if(contex==null){
       throw new Error("Contexto no disponible");
@@ -50,32 +68,53 @@ export function DialogDemo({variant}:{variant:string}) {
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
+      console.log('proyecto selecionado'+projecto)
       console.log("Datos a enviar:", { ...data,projectId:id });
 
+      let datos;
+
+      if (id===parseInt(projecto)) {
+        datos={ ...data,projectId:id }
+      } else {
+        datos={ ...data,projectId:parseInt(projecto )}
+      }
+
+      
+
       try {
-         
+
         const response = await axios.post(
           "http://localhost:3000/api/task",
-          { ...data,projectId:id },
+          datos,
           {
             headers: {
               "Content-Type": "application/json",
             },
           }
         );
+         
+       
        
         setValue(!value);
+        
         setOpen(false); // Cerrar el diálogo después de enviar
+
         setData({ // Limpiar el formulario
           title: "",
           description: "",
           status: "completado",
           projectId: id,
         });
+        setId(+projecto)
       } catch (error) {
         console.error('Error de red:', error);
       } 
     };
+
+    useEffect(()=>{
+     
+       setProjecto(''+id)
+    },[id])
 
     return (
       <Dialog open={open} onOpenChange={setOpen}>
@@ -100,6 +139,24 @@ export function DialogDemo({variant}:{variant:string}) {
                   onChange={handleChange} 
                 />
               </div>
+              <Select value={projecto} onValueChange={setProjecto}>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Select a project" />
+              </SelectTrigger>
+              <SelectContent>
+              {
+                projects.map((item) => (
+
+                  <SelectItem value={''+item.id}>{item.name}</SelectItem>
+
+                ))
+              }
+
+                
+                  
+                  
+              </SelectContent>
+            </Select>
             </div>
             <DialogFooter>
               <Button type="button" variant="outline" onClick={() => setOpen(false)}>
