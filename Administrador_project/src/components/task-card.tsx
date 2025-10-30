@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import {  useState } from "react"
-import { Card } from "@/components/ui/card"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Button } from "@/components/ui/button"
+import { useState } from "react";
+import { Card } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,41 +12,58 @@ import {
   DropdownMenuSub,
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import { MoreHorizontal,Trash2, User } from "lucide-react"
-import type { Task, Users } from "./task-board"
-import { DialogDemo2 } from "@/App/dashboard/DialogDemo2"
+} from "@/components/ui/dropdown-menu";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { MoreHorizontal, Trash2, User } from "lucide-react";
+import type { Task, Users } from "./task-board";
+import { DialogDemo2 } from "@/App/dashboard/DialogDemo2";
 
 type TaskCardProps = {
-  user:Users[] | null
-  task: Task
-  onAssigneeChange: (assignee: string | null) => void
-  onStatusChange: (id:number,estado:string) => void
-  clear:(taskId:string)=>void
-  
-}
+  user: Users[] | null;
+  task: Task;
+  onAssigneeChange: (assignee: string | null) => void;
+  onStatusChange: (id: number, estado: string) => void;
+  clear: (taskId: string) => void;
+};
 
+export function TaskCard({
+  user,
+  task,
+  onAssigneeChange,
+  onStatusChange,
+  clear,
+}: TaskCardProps) {
+  const [isAssigneeOpen, setIsAssigneeOpen] = useState(false);
+  const assignedUser = user?.find((u) => u.id === task.user?.id);
 
-export function TaskCard({ user,task, onAssigneeChange, onStatusChange,clear }: TaskCardProps) {
-  const [isAssigneeOpen, setIsAssigneeOpen] = useState(false)
-  const assignedUser = user?.find((u) => u.id === task.user?.id)
-
+ 
 
   return (
     <Card className="group relative border border-border bg-card p-3 transition-shadow hover:shadow-md">
       <div className="flex items-start justify-between gap-3">
         <div className="flex flex-1 items-start gap-3">
-        
           <div className="flex-1 space-y-2">
-            {task.status === 'enproceso' ? <h3 className="text-sm font-medium text-foreground line-through">{task.title}</h3>:<DialogDemo2 variant={task.title} task={task} estado={task.status}></DialogDemo2>}
-            
-            
+            {task.status === "completado" ? (
+              <h3 className="text-sm font-medium text-foreground line-through">
+                {task.title}
+              </h3>
+            ) : (
+              <DialogDemo2
+                variant={task.title}
+                task={task}
+                estado={task.status}
+              ></DialogDemo2>
+            )}
+
             <div className="flex items-center gap-2">
               <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
                 <Checkbox className="h-3 w-3" checked />
-                {'PRAC-'+task.id}
+                {"PRAC-" + task.id}
               </span>
             </div>
           </div>
@@ -55,7 +72,11 @@ export function TaskCard({ user,task, onAssigneeChange, onStatusChange,clear }: 
         <div className="flex items-center gap-2">
           <Popover open={isAssigneeOpen} onOpenChange={setIsAssigneeOpen}>
             <PopoverTrigger asChild>
-              <Button variant="ghost" size="sm" className="h-8 w-8 rounded-full p-0">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-8 w-8 rounded-full p-0"
+              >
                 {assignedUser ? (
                   <Avatar className="h-8 w-8">
                     <AvatarFallback className="bg-orange-500 text-xs text-white">
@@ -92,31 +113,38 @@ export function TaskCard({ user,task, onAssigneeChange, onStatusChange,clear }: 
                 <button
                   className="flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm hover:bg-accent"
                   onClick={() => {
-                    onAssigneeChange(null)
-                    setIsAssigneeOpen(false)
+                    onAssigneeChange(null);
+                    setIsAssigneeOpen(false);
                   }}
                 >
                   <User className="h-4 w-4 text-muted-foreground" />
                   <span className="text-foreground">Automático</span>
                 </button>
-                {user&&user.map((user) => (
-                  <button
-                    key={user.id}
-                    className="flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm hover:bg-accent"
-                    onClick={() => {
-                      onAssigneeChange(user.id.toString())
-                      setIsAssigneeOpen(false)
-                    }}
-                  >
-                    <Avatar className="h-6 w-6">
-                      <AvatarFallback className="bg-orange-500 text-xs text-white">{user.initials}</AvatarFallback>
-                    </Avatar>
-                    <div className="flex flex-col items-start">
-                      <span className="font-medium text-foreground">{user.name}</span>
-                      <span className="text-xs text-muted-foreground">{user.email}</span>
-                    </div>
-                  </button>
-                ))}
+                {user &&
+                  user.map((user) => (
+                    <button
+                      key={user.id}
+                      className="flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm hover:bg-accent"
+                      onClick={() => {
+                        onAssigneeChange(user.id.toString());
+                        setIsAssigneeOpen(false);
+                      }}
+                    >
+                      <Avatar className="h-6 w-6">
+                        <AvatarFallback className="bg-orange-500 text-xs text-white">
+                          {user.initials}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="flex flex-col items-start">
+                        <span className="font-medium text-foreground">
+                          {user.name}
+                        </span>
+                        <span className="text-xs text-muted-foreground">
+                          {user.email}
+                        </span>
+                      </div>
+                    </button>
+                  ))}
               </div>
             </PopoverContent>
           </Popover>
@@ -132,20 +160,38 @@ export function TaskCard({ user,task, onAssigneeChange, onStatusChange,clear }: 
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-48">
-              
               <DropdownMenuSub>
                 <DropdownMenuSubTrigger>Cambiar estado</DropdownMenuSubTrigger>
                 <DropdownMenuSubContent>
-                  <DropdownMenuItem onClick={()=>{onStatusChange(+task.id,'enproceso')}}>En progreso</DropdownMenuItem>
-                  <DropdownMenuItem onClick={()=>{onStatusChange(+task.id,'completado')}}>Completado</DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => {
+                      onStatusChange(+task.id, "enproceso");
+                    }}
+                  >
+                    En progreso
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => {
+                      onStatusChange(+task.id, "completado");
+                    }}
+                  >
+                    Completado
+                  </DropdownMenuItem>
                 </DropdownMenuSubContent>
               </DropdownMenuSub>
-              <DropdownMenuItem onClick={()=>{clear(task.id)}}> eliminar <Trash2  className="h-4 w-4 text-blue-600 dark:text-sky-400" /></DropdownMenuItem>
-              
+              <DropdownMenuItem
+                onClick={() => {
+                  clear(task.id);
+                }}
+              >
+                {" "}
+                eliminar{" "}
+                <Trash2 className="h-4 w-4 text-blue-600 dark:text-sky-400" />
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
       </div>
     </Card>
-  )
+  );
 }

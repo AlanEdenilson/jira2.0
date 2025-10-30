@@ -48,6 +48,13 @@ export function DialogDemo2({
 
   const { value, setValue } = contex2;
 
+   let initial = "UN";
+
+  if (task.user!=null ) {
+    initial = task.user?.name;
+    initial= initial[0]+initial[initial.length-1]
+  }
+
   const handleSave = async () => {
     console.log("[v0] Saving task:", { title, description, status });
     try {
@@ -93,11 +100,11 @@ export function DialogDemo2({
                 <Avatar className="h-8 w-8">
                   <AvatarImage
                     src="/professional-person.png"
-                    alt="María García"
+                    alt={task.user?.name}
                   />
-                  <AvatarFallback>MG</AvatarFallback>
+                  <AvatarFallback className="bg-orange-500 text-xs ">{initial}</AvatarFallback>
                 </Avatar>
-                <p className="text-sm font-medium">María García</p>
+                <p className="text-sm font-medium">{task.user ? task.user?.name : 'unnagsigned'}</p>
               </div>
             </div>
           </DialogHeader>
