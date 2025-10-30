@@ -9,7 +9,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { AlertCircleIcon, Bot, CheckCircle2Icon } from "lucide-react";
+import { AlertCircleIcon, CheckCircle2Icon, Plus } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 
 import { z } from "zod";
@@ -128,18 +128,18 @@ export function DialogDemo() {
 
   return (
     <>
-      <Bot
+      <Plus
         onClick={() => {
           setOpen(!open);
         }}
-      ></Bot>
+      ></Plus>
       <Dialog open={open} onOpenChange={setOpen}>
         <span
           onClick={() => {
             setOpen(!open);
           }}
         >
-          Open Dialog
+          new Project
         </span>
 
         <DialogContent className="sm:max-w-[425px]">
