@@ -3,9 +3,9 @@ import { ScrollAreaDemo } from "./ScrollArea";
 import { ContextProvider } from "@/context/context-Modal";
 import axios from "axios";
 import type { Response } from "@/components/app-sidebar";
-import type { ProjectStatus } from "@/context/type/Types";
+import { ProjectStatus } from "@/context/type/Types";
 
-interface Project {
+interface Project1 {
   id: number;
 
   name: string;
@@ -16,9 +16,9 @@ interface Project {
 
   color: string;
 
-  createdAt: Date;
+  createdAt: string;
 
-  updateAt: Date;
+  updateAt: string;
 
   isActive: boolean;
 
@@ -27,31 +27,32 @@ interface Project {
 }
 
 const Project = () => {
-  const mockData = [
+  const mockData:Project1 = 
     {
       id: 1,
       name: "Proyecto Alpha",
       description: "Descripción del proyecto Alpha",
-      status: "ACTIVO",
+      status:ProjectStatus.ACTIVO,
       color: "#3B82F6",
-      createdAt: "2024-01-15",
-      updateAt: "2024-10-20",
+      createdAt: new Date('2025-10-31T02:50:07.867Z').toLocaleDateString(),
+      updateAt: new Date('2025-10-31T02:50:07.867Z').toLocaleDateString(),
+      isActive: true,
       tags: [
         "v1.2.0-beta.50",
         "v1.2.0-beta.49",
         "v1.2.0-beta.48",
         "v1.2.0-beta.47",
       ],
-    },
-  ];
-  const [projects, setProjects] = useState(mockData);
+    };
+  
+  const [projects, setProjects] = useState<Project1>(mockData);
   const contex= useContext(ContextProvider);
 
   if(contex==null){
    throw new Error("Contexto no disponible");
   }
 
-  const {id,setId} = contex ;
+  const {id,} = contex ;
 
   console.log("proyecto actual"+id)
 
@@ -73,7 +74,7 @@ const Project = () => {
         );
 
         console.log("proyecto:", response.data);
-        setProjects([response.data]);
+        setProjects(response.data as unknown as Project1 );
 
         
       } catch (err) {
@@ -105,14 +106,10 @@ const Project = () => {
 
  
 
-  const getStatusColor = (status) => {
-    const colors = {
-      activo: "bg-green-100 text-green-800",
-      EN_DESARROLLO: "bg-blue-100 text-blue-800",
-      PAUSADO: "bg-yellow-100 text-yellow-800",
-      COMPLETADO: "bg-gray-100 text-gray-800",
-    };
-    return colors[status] || "bg-gray-100 text-gray-800";
+  const getStatusColor = (status:string) => {
+    console.log(status)
+  
+    return 'bg-green-100 text-green-800';
   };
 
  
@@ -120,48 +117,48 @@ const Project = () => {
   return (
     <>
       <div className="bg-muted/50 h-40 max-h-40  rounded-xl ">
-        {projects.map((project) => (
+       
           <div
-            key={project.id}
+            key={projects.id}
             className="bg-gray-100rounded-lg shadow-sm border border-gray-200 h-40  hover:shadow-md transition-shadow"
           >
             <div className="p-6">
               <div className="flex items-start justify-between mb-4">
                 <div>
                   <h2 className="text-xl font-semibold text-gray-900 mb-1">
-                    {project.name}
+                    {projects.name}
                   </h2>
                   <span
                     className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(
-                      project.status
+                      projects.status
                     )}`}
                   >
-                    {project.status.replace("_", " ")}
+                    {projects.status.replace("_", " ")}
                   </span>
                 </div>
                 <div
                   className="w-4 h-4 rounded-full flex-shrink-0 mt-1"
-                  style={{ backgroundColor: project.color }}
+                  style={{ backgroundColor: projects.color }}
                 ></div>
               </div>
 
               <p className="text-gray-600 text-sm mb-4">
-                {project.description}
+                {projects.description}
               </p>
 
               <div className="mt-1 pt-1 border-t border-gray-100 text-xs text-gray-500">
                 <div className="flex justify-between">
                   <span>
-                    Creado: {new Date(project.createdAt).toLocaleDateString()}
+                    Creado: {new Date(projects.createdAt).toLocaleDateString()}
                   </span>
                   <span>
-                    Act: {new Date(project.updateAt).toLocaleDateString()}
+                    Act: {new Date(projects.updateAt).toLocaleDateString()}
                   </span>
                 </div>
               </div>
             </div>
           </div>
-        ))}
+       
       </div>
 
       <div className="bg-muted/50 h-90 min-h-90  rounded-xl   flex  gap-5 pl-10 pt-10">
