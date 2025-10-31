@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/form";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
-import axios, { type AxiosResponse } from "axios";
+import axios from "axios";
 import { ProjectContext } from "@/context/context-Modal";
 
 interface Response{
@@ -103,7 +103,7 @@ export function DialogDemo() {
         console.log("Datos enviados exitosamente:", response.data);
       } catch (err) {
         
-        setShowAlert({mensage:err?.code as string, ok:true, type:'e'})
+        setShowAlert({mensage:'error al crea un proyecto ', ok:true, type:'e'})
 
         
         console.error("Error al enviar datos:", err);

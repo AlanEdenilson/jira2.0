@@ -24,7 +24,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import type { Task } from "@/components/task-board";
 import axios from "axios";
 import { ContextTask } from "@/context/context-Modal";
-import { set } from "zod";
+
 
 export function DialogDemo2({
   variant,

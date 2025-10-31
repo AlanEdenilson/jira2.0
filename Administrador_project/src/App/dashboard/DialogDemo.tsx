@@ -19,7 +19,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ContextProject, ContextProvider, ContextTask } from "@/context/context-Modal";
 import axios from "axios";
-import React, { ChangeEvent, FormEvent, useContext, useEffect, useState } from "react";
+import React, {type  ChangeEvent, type FormEvent, useContext, useEffect, useState } from "react";
 
 export function DialogDemo({variant}:{variant:string}) {
     const contex = React.useContext(ContextProvider);
@@ -41,7 +41,7 @@ export function DialogDemo({variant}:{variant:string}) {
     
       const {value,setValue} = contex2 ;
 
-      const {projects,setProjects} = contex3;
+      const {projects,} = contex3;
      
       
     if(contex==null){
@@ -94,6 +94,7 @@ export function DialogDemo({variant}:{variant:string}) {
             },
           }
         );
+        console.log(response)
          
        
        
