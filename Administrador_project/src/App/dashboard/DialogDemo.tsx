@@ -20,6 +20,34 @@ import { Label } from "@/components/ui/label";
 import { ContextProject, ContextProvider, ContextTask } from "@/context/context-Modal";
 import axios from "axios";
 import React, {type  ChangeEvent, type FormEvent, useContext, useEffect, useState } from "react";
+import type { LucideIcon } from "lucide-react";
+
+
+enum ProjectStatus {
+  ACTIVO = "activo",
+  COMPLETADO = "completado",
+  CANCELADO = "cancelado",
+}
+
+interface Project {
+  id: number;
+
+  name: string;
+
+  description: string;
+
+  status: ProjectStatus;
+
+  color: string;
+
+  createdAt: Date;
+
+  updateAt: Date;
+
+  isActive: boolean;
+
+  icon?: LucideIcon;
+}
 
 export function DialogDemo({variant}:{variant:string}) {
     const contex = React.useContext(ContextProvider);
@@ -42,6 +70,8 @@ export function DialogDemo({variant}:{variant:string}) {
       const {value,setValue} = contex2 ;
 
       const {projects,} = contex3;
+
+        const projectsArray: Project[] = Array.isArray(projects) ? projects : projects ? [projects] : [];
      
       
     if(contex==null){
@@ -148,7 +178,7 @@ export function DialogDemo({variant}:{variant:string}) {
               </SelectTrigger>
               <SelectContent>
               {
-                projects.map((item) => (
+                projectsArray.map((item) => (
 
                   <SelectItem value={''+item.id}>{item.name}</SelectItem>
 

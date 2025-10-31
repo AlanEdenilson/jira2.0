@@ -45,7 +45,7 @@ interface Projects {
 }
 
 export interface Response {
-  data: Project[];
+  data: typeof Project[];
   message: string;
   ok: boolean;
   status: number;
@@ -55,7 +55,7 @@ export interface Response {
 export default function Page() {
   const [id,setId] = useState<number | null>(null);
   const [value,setValue] = useState<boolean>(false);
-  const [projects, setProjects] = useState<Projects[]|[]>([]);
+  const [projects, setProjects] = useState<Projects[]|[]| Projects>([]);
   
 
 

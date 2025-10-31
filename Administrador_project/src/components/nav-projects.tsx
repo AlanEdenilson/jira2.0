@@ -28,6 +28,7 @@ import {
 import React from "react";
 import { ContextProvider, ProjectContext } from "@/context/context-Modal";
 import axios from "axios";
+import Project from "@/App/dashboard/Project";
 
 enum ProjectStatus {
   ACTIVO = "activo",
@@ -55,10 +56,12 @@ interface Project {
   icon?: LucideIcon;
 }
 
-export function NavProjects({ projects }: { projects: Project[] }) {
+export function NavProjects({ projects }: { projects: Project[] | Project |[]}) {
   const { isMobile } = useSidebar();
 
   const contex = React.useContext(ContextProvider);
+
+  const projectsArray: Project[] = Array.isArray(projects) ? projects : projects ? [projects] : [];
 
   const context2 =React. useContext(ProjectContext);
   
@@ -99,7 +102,7 @@ export function NavProjects({ projects }: { projects: Project[] }) {
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
       <SidebarGroupLabel>Projects</SidebarGroupLabel>
       <SidebarMenu>
-        {projects.map((item) => (
+        {projectsArray.map((item) => (
           <SidebarMenuItem key={item.id}>
             <SidebarMenuButton asChild>
               <span
