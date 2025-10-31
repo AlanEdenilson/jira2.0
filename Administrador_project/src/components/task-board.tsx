@@ -5,6 +5,7 @@ import axios from "axios"
 import { ContextProvider, ContextTask } from "@/context/context-Modal"
 
 
+
 export type Task = {
   id: string
   title: string
@@ -143,11 +144,12 @@ export function TaskBoard({variant}: {variant: string}) {
           }
         );
 
-        const person = response2.data.data.map(persona => ({
-              ...persona,
-              initials: persona.name[0] + persona.name[persona.name.length - 1],
-              email:persona.name+'@gamil.com'
-          }));
+        
+        const person = response2.data.data.map((persona: Users) => ({
+          ...persona,
+          initials: persona.name[0] + persona.name[persona.name.length - 1],
+          email: `${persona.name}@gamil.com`,
+        }));
 
         console.log("task:", response.data);
         console.log('usarios',response2.data)
