@@ -68,7 +68,7 @@ export const  ContextTask  = React.createContext<task|null>(null)
 
 interface Proyecto{
   projects : Project[] | []
-  setProjects: React.Dispatch<React.SetStateAction<Project[] | []>>
+  setProjects: React.Dispatch<React.SetStateAction<Project | []>>
 }
 
 export const ContextProject = React.createContext<Proyecto | null>(null)

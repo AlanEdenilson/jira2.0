@@ -8,7 +8,6 @@ import {
   GalleryVerticalEnd,
   Map,
   PieChart,
-  type LucideIcon,
 } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
@@ -93,7 +92,7 @@ interface Project {
 
   isActive: boolean;
 
-  icon?:LucideIcon
+  task:[]
 
 }
 
@@ -109,6 +108,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const [valor, setValor] = React.useState(false);
 
   const contex= React.useContext(ContextProject);
+
+  if (contex==null){
+    throw new Error('error en el contexto de app-sidebar.tsx')
+  }
    
   
     const {projects,setProjects} = contex;
@@ -131,7 +134,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         );
 
         console.log("proyectos:", response.data);
-        setProjects(response.data.data);
+        setProjects((response.data.data as unknown) as Project);
       } catch (err) {
         console.error("Error al recibir los proyectos:", err);
       }
