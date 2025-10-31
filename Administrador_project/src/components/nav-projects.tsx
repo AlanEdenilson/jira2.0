@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
   Folder,
@@ -7,7 +7,7 @@ import {
   MoreHorizontal,
   Trash2,
   type LucideIcon,
-} from "lucide-react"
+} from "lucide-react";
 
 import {
   DropdownMenu,
@@ -15,7 +15,7 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -24,17 +24,17 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
 import React from "react";
-import { ContextProvider } from "@/context/context-Modal";
+import { ContextProvider, ProjectContext } from "@/context/context-Modal";
 import { set } from "zod";
+import axios from "axios";
 
 enum ProjectStatus {
   ACTIVO = "activo",
   COMPLETADO = "completado",
   CANCELADO = "cancelado",
 }
-
 
 interface Project {
   id: number;
@@ -53,22 +53,48 @@ interface Project {
 
   isActive: boolean;
 
-  icon?:LucideIcon
-
+  icon?: LucideIcon;
 }
 
-export function NavProjects({projects,}:{
-projects: Project[]
-}) {
-  const { isMobile } = useSidebar()
+export function NavProjects({ projects }: { projects: Project[] }) {
+  const { isMobile } = useSidebar();
 
-   const contex= React.useContext(ContextProvider);
+  const contex = React.useContext(ContextProvider);
+
+  const context2 =React. useContext(ProjectContext);
   
-    if(contex==null){
-     throw new Error("Contexto no disponible");
+    if (!context2){
+      throw new Error('a ocurrido un error al usar el esado del proyecto')
     }
   
-    const {id,setId} = contex ;
+    const { valor,setValor} = context2
+
+
+  if (contex == null) {
+    throw new Error("Contexto no disponible");
+  }
+
+   const {  setId } = contex;
+
+  async function borrar(id:number) {
+    try {
+      const response = await axios.delete(
+        "https://adtask.onrender.com/api/project/" + id,
+
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log("Datos enviados exitosamente:", response.data);
+      setValor(!valor)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+ 
 
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
@@ -77,8 +103,12 @@ projects: Project[]
         {projects.map((item) => (
           <SidebarMenuItem key={item.id}>
             <SidebarMenuButton asChild>
-              <span onClick={()=>{setId(item.id)}}>
-                <Frame style={{backgroundColor:item.color}}/>
+              <span
+                onClick={() => {
+                  setId(item.id);
+                }}
+              >
+                <Frame style={{ backgroundColor: item.color }} />
                 <span>{item.name}</span>
               </span>
             </SidebarMenuButton>
@@ -103,7 +133,7 @@ projects: Project[]
                   <span>Share Project</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>
+                <DropdownMenuItem onClick={()=>{borrar(item.id)}}>
                   <Trash2 className="text-muted-foreground" />
                   <span>Delete Project</span>
                 </DropdownMenuItem>
@@ -119,5 +149,5 @@ projects: Project[]
         </SidebarMenuItem>
       </SidebarMenu>
     </SidebarGroup>
-  )
+  );
 }

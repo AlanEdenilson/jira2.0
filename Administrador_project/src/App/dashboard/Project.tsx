@@ -61,7 +61,7 @@ const Project = () => {
     async function getProject(){
       try {
         const response = await axios.get<Response>(
-          "http://localhost:3000/api/project/"+id,
+          "https://adtask.onrender.com/api/project/"+id,
 
           {
             headers: {

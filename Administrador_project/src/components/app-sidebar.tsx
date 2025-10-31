@@ -119,7 +119,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     async function fetchData() {
       try {
         const response = await axios.get<Response>(
-          "http://localhost:3000/api/project/?page=1&pageSize=10",
+          "https://adtask.onrender.com/api/project/?page=1&pageSize=10",
 
           {
             headers: {

@@ -59,7 +59,7 @@ export function DialogDemo2({
     console.log("[v0] Saving task:", { title, description, status });
     try {
       const response = await axios.patch(
-        "http://localhost:3000/api/task/" + task.id,
+        "https://adtask.onrender.com/api/task/" + task.id,
         { title, description, status },
         {
           headers: {

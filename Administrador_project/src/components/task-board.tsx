@@ -1,10 +1,8 @@
 "use client"
-
 import { useContext, useEffect, useState } from "react"
 import { TaskCard } from "./task-card"
 import axios from "axios"
 import { ContextProvider, ContextTask } from "@/context/context-Modal"
-import { email } from "zod"
 
 
 export type Task = {
@@ -50,7 +48,7 @@ export function TaskBoard({variant}: {variant: string}) {
      throw new Error("Contexto no disponible");
     }
   
-    const {id,setId} = contex2 ;
+    const {id,} = contex2 ;
 
   const contex= useContext(ContextTask);
   
@@ -63,7 +61,7 @@ export function TaskBoard({variant}: {variant: string}) {
   async function updateTaskAssignee (taskId: string, assignee: string | null){
     try {
         const response = await axios.patch(
-          "http://localhost:3000/api/task/"+taskId,
+          "https://adtask.onrender.com/api/task/"+taskId,
           { "userId":assignee&&+assignee },
           {
             headers: {
@@ -82,7 +80,7 @@ export function TaskBoard({variant}: {variant: string}) {
   async function borrar(taskId: string){
     try {
         const response = await axios.delete(
-          "http://localhost:3000/api/task/"+taskId,
+          "https://adtask.onrender.com/api/task/"+taskId,
       
   
         );
@@ -99,7 +97,7 @@ export function TaskBoard({variant}: {variant: string}) {
   async function updateStatus(id:number,estado:string){
       try {
         const response = await axios.patch(
-          "http://localhost:3000/api/task/"+id,
+          "https://adtask.onrender.com/api/task/"+id,
           { "status":estado },
           {
             headers: {
@@ -122,7 +120,7 @@ export function TaskBoard({variant}: {variant: string}) {
     async function fetchTasks(){
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/task/two/?project="+id+"&estado="+variant,
+          "https://adtask.onrender.com/api/task/two/?project="+id+"&estado="+variant,
 
           {
             headers: {
@@ -134,7 +132,7 @@ export function TaskBoard({variant}: {variant: string}) {
         );
 
         const response2 = await axios.get(
-          "http://localhost:3000/user",
+          "https://adtask.onrender.com/user",
 
           {
             headers: {
