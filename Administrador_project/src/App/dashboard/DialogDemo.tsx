@@ -104,16 +104,16 @@ export function DialogDemo({variant}:{variant:string}) {
       let datos;
 
       if (id===parseInt(projecto)) {
-        datos={ ...data,projectId:id }
+        datos={ ...data,status:variant,projectId:id}
       } else {
-        datos={ ...data,projectId:parseInt(projecto )}
+        datos={ ...data,status:variant,projectId:parseInt(projecto )}
       }
-
-      console.log(datos)
 
       
 
       try {
+        console.log('creando una nueva tarea ')
+        console.log(datos)
 
         const response = await axios.post(
           "https://adtask.onrender.com/api/task",
