@@ -125,14 +125,14 @@ const Project = () => {
 
   return (
     <>
-      <div className="bg-muted/50 h-40 max-h-40  rounded-xl ">
+      <div className="bg-muted/50 h-30 max-h-30   rounded-xl  w-full">
        
           <div
             key={projects.id}
-            className="bg-gray-100rounded-lg shadow-sm border border-gray-200 h-40  hover:shadow-md transition-shadow"
+            className="bg-gray-100rounded-lg shadow-sm border border-gray-200 h-30  hover:shadow-md transition-shadow  w-full"
           >
-            <div className="p-6">
-              <div className="flex items-start justify-between mb-4">
+            <div className="p-1 flex flex-1 flex-wrap  ">
+              <div className="flex items-start justify-between mb-1 w-full">
                 <div>
                   <h2 className="text-xl font-semibold text-gray-900 mb-1">
                     {projects.name}
@@ -151,11 +151,10 @@ const Project = () => {
                 ></div>
               </div>
 
-              <p className="text-gray-600 text-sm mb-4">
+              <p className="text-gray-600 text-sm mb-4 w-full">
                 {projects.description}
               </p>
-
-              <div className="mt-1 pt-1 border-t border-gray-100 text-xs text-gray-500">
+              <div className=" border-t border-gray-100 text-xs text-gray-500 w-full">
                 <div className="flex justify-between">
                   <span>
                     Creado: {new Date(projects.createdAt).toLocaleDateString()}
@@ -165,6 +164,8 @@ const Project = () => {
                   </span>
                 </div>
               </div>
+
+              
             </div>
           </div>
        
