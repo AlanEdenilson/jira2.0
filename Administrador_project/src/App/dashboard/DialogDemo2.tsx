@@ -24,6 +24,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import type { Task } from "@/components/task-board";
 import axios from "axios";
 import { ContextTask } from "@/context/context-Modal";
+import { api } from "@/ruta";
 
 
 export function DialogDemo2({
@@ -59,7 +60,7 @@ export function DialogDemo2({
     console.log("[v0] Saving task:", { title, description, status });
     try {
       const response = await axios.patch(
-        "https://adtask.onrender.com/api/task/" + task.id,
+        api+"/api/task/" + task.id,
         { title, description, status },
         {
           headers: {

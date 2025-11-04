@@ -3,6 +3,7 @@ import { useContext, useEffect, useState } from "react"
 import { TaskCard } from "./task-card"
 import axios from "axios"
 import { ContextProvider, ContextTask } from "@/context/context-Modal"
+import { api } from "@/ruta"
 
 
 
@@ -68,7 +69,7 @@ export function TaskBoard({variant,isDragging,handleDragging}: props) {
   async function updateTaskAssignee (taskId: string, assignee: string | null){
     try {
         const response = await axios.patch(
-          "https://adtask.onrender.com/api/task/"+taskId,
+          api+"/api/task/"+taskId,
           { "userId":assignee&&+assignee },
           {
             headers: {
@@ -87,7 +88,7 @@ export function TaskBoard({variant,isDragging,handleDragging}: props) {
   async function borrar(taskId: string){
     try {
         const response = await axios.delete(
-          "https://adtask.onrender.com/api/task/"+taskId,
+          api+"/api/task/"+taskId,
       
   
         );
@@ -104,7 +105,7 @@ export function TaskBoard({variant,isDragging,handleDragging}: props) {
   async function updateStatus(id:number,estado:string){
       try {
         const response = await axios.patch(
-          "https://adtask.onrender.com/api/task/"+id,
+          api+"/api/task/"+id,
           { "status":estado },
           {
             headers: {
@@ -127,7 +128,7 @@ export function TaskBoard({variant,isDragging,handleDragging}: props) {
     async function fetchTasks(){
       try {
         const response = await axios.get(
-          "https://adtask.onrender.com/api/task/two/?project="+id+"&estado="+variant,
+          api+"/api/task/two/?project="+id+"&estado="+variant,
 
           {
             headers: {
@@ -139,7 +140,7 @@ export function TaskBoard({variant,isDragging,handleDragging}: props) {
         );
 
         const response2 = await axios.get(
-          "https://adtask.onrender.com/user",
+          api+"/user",
 
           {
             headers: {

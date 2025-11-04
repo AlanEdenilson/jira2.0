@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/sidebar";
 import { ContextProject, ProjectContext } from "@/context/context-Modal";
 import axios from "axios";
+import { api } from "@/ruta";
 
 
 // This is sample data.
@@ -122,7 +123,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     async function fetchData() {
       try {
         const response = await axios.get<Response>(
-          "https://adtask.onrender.com/api/project/?page=1&pageSize=10",
+          api+"/api/project/?page=1&pageSize=10",
 
           {
             headers: {

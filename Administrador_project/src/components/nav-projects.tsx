@@ -29,6 +29,7 @@ import React from "react";
 import { ContextProvider, ProjectContext } from "@/context/context-Modal";
 import axios from "axios";
 import Project from "@/App/dashboard/Project";
+import { api } from "@/ruta";
 
 enum ProjectStatus {
   ACTIVO = "activo",
@@ -81,7 +82,7 @@ export function NavProjects({ projects }: { projects: Project[] | Project |[]}) 
   async function borrar(id:number) {
     try {
       const response = await axios.delete(
-        "https://adtask.onrender.com/api/project/" + id,
+        api+"/api/project/" + id,
 
         {
           headers: {

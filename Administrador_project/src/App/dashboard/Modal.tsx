@@ -28,6 +28,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 import axios from "axios";
 import { ProjectContext } from "@/context/context-Modal";
+import { api } from "@/ruta";
 
 interface Response{
   status: number
@@ -85,7 +86,7 @@ export function DialogDemo() {
     const enviarDatosConAxios = async () => {
       try {
         const response = await axios.post<Response>(
-          "https://adtask.onrender.com/api/project",
+          api+"/api/project",
           { ...values },
           {
             headers: {

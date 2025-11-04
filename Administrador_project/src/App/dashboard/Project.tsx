@@ -4,6 +4,7 @@ import { ContextProvider } from "@/context/context-Modal";
 import axios from "axios";
 import type { Response } from "@/components/app-sidebar";
 import { ProjectStatus } from "@/context/type/Types";
+import { api } from "@/ruta";
 
 interface Project1 {
   id: number;
@@ -70,7 +71,7 @@ const Project = () => {
     async function getProject(){
       try {
         const response = await axios.get<Response>(
-          "https://adtask.onrender.com/api/project/"+id,
+          api+"/api/project/"+id,
 
           {
             headers: {

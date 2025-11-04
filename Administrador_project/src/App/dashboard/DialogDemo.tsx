@@ -21,6 +21,7 @@ import { ContextProject, ContextProvider, ContextTask } from "@/context/context-
 import axios from "axios";
 import React, {type  ChangeEvent, type FormEvent, useContext, useEffect, useState } from "react";
 import type { LucideIcon } from "lucide-react";
+import { api } from "@/ruta";
 
 
 enum ProjectStatus {
@@ -116,7 +117,7 @@ export function DialogDemo({variant}:{variant:string}) {
         console.log(datos)
 
         const response = await axios.post(
-          "https://adtask.onrender.com/api/task",
+          api+"/api/task",
           datos,
           {
             headers: {
