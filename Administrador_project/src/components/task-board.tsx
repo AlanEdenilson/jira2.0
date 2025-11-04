@@ -13,7 +13,7 @@ export type Task = {
   description?:string
   taskId: string
   assignee: string | null
-  status: "completado" | "enproceso" 
+  status:"new" | "completado" | "enproceso" 
   user:Users | null
 }
 
