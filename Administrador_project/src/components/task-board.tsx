@@ -36,7 +36,13 @@ const initialTasks: Task[] = [
   
 ]
 
-export function TaskBoard({variant}: {variant: string}) {
+interface props {
+  variant:string
+   isDragging: boolean
+    handleDragging: (dragging: boolean) => void
+}
+
+export function TaskBoard({variant,isDragging,handleDragging}: props) {
   const [tasks, setTasks] = useState<Task[]>(initialTasks)
   const [users,setUsers]= useState<Users[]| null>(null)
 
@@ -166,10 +172,31 @@ export function TaskBoard({variant}: {variant: string}) {
   },[value,id])
 
 
-  
+    const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault()
+        const arrayPorPalabras = e.dataTransfer.getData('text').split(' ');
+        console.log(arrayPorPalabras);
+
+        console.log(arrayPorPalabras)
+
+        console.log('soltando el elemento',arrayPorPalabras[0])
+
+        if(arrayPorPalabras[1]!==variant){
+            updateStatus(+arrayPorPalabras[0],variant)
+        }
+        console.log('el estatus es igual asi que no cambiara')
+
+        //
+       
+        handleDragging(false)
+    }
+
+    const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => e.preventDefault()
 
   return (
-    <div className="space-y-6">
+    <div className={isDragging?'space-y-6 border-2 border-dashed':'space-y-6 border-2'}
+      onDrop={handleDrop}
+            onDragOver={handleDragOver}>
     
         
         <div className="space-y-3 p-1">
@@ -181,6 +208,7 @@ export function TaskBoard({variant}: {variant: string}) {
               onAssigneeChange={(assignee) => updateTaskAssignee(task.id, assignee)}
               onStatusChange={updateStatus}
               clear={borrar}
+              handleDragging={handleDragging}
             />
           ))}
         </div>

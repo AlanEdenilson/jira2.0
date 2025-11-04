@@ -29,6 +29,7 @@ type TaskCardProps = {
   onAssigneeChange: (assignee: string | null) => void;
   onStatusChange: (id: number, estado: string) => void;
   clear: (taskId: string) => void;
+    handleDragging: (dragging: boolean) => void
 };
 
 export function TaskCard({
@@ -37,14 +38,28 @@ export function TaskCard({
   onAssigneeChange,
   onStatusChange,
   clear,
+  handleDragging,
 }: TaskCardProps) {
   const [isAssigneeOpen, setIsAssigneeOpen] = useState(false);
   const assignedUser = user?.find((u) => u.id === task.user?.id);
 
+  const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
+        e.dataTransfer.setData('text', `${task.id} ${task.status}`)
+        handleDragging(true)
+  }
+
+  const handleDragEnd = () => handleDragging(false)
  
 
   return (
-    <Card className="group relative border border-border bg-card p-3 transition-shadow hover:shadow-md">
+    <Card className="group relative border border-border bg-card p-3 transition-shadow hover:shadow-md " draggable 
+
+    
+
+    onDragStart={handleDragStart}
+            onDragEnd={handleDragEnd}
+            >
+
       <div className="flex items-start justify-between gap-3">
         <div className="flex flex-1 items-start gap-3">
           <div className="flex-1 space-y-2">

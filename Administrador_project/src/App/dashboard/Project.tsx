@@ -26,6 +26,10 @@ interface Project1 {
 
 }
 
+
+
+
+
 const Project = () => {
   const mockData:Project1 = 
     {
@@ -46,7 +50,11 @@ const Project = () => {
     };
   
   const [projects, setProjects] = useState<Project1>(mockData);
+   const [isDragging, setIsDragging] = useState(false)
+
+  const handleDragging = (dragging: boolean) => setIsDragging(dragging)
   const contex= useContext(ContextProvider);
+
 
   if(contex==null){
    throw new Error("Contexto no disponible");
@@ -162,9 +170,14 @@ const Project = () => {
       </div>
 
       <div className="bg-muted/50 h-90 min-h-90  rounded-xl   flex  gap-5 pl-10 pt-10">
-        <ScrollAreaDemo variante="enproceso" titulo="enproceso"></ScrollAreaDemo>
+        <ScrollAreaDemo  variante="enproceso" titulo="enproceso"  isDragging={isDragging}
+                        handleDragging={handleDragging}></ScrollAreaDemo>
 
-        <ScrollAreaDemo variante="completado" titulo="completado"></ScrollAreaDemo>
+        <ScrollAreaDemo variante="enproceso" titulo="enproceso"  isDragging={isDragging}
+                        handleDragging={handleDragging}></ScrollAreaDemo>
+
+        <ScrollAreaDemo variante="completado" titulo="completado"  isDragging={isDragging}
+                        handleDragging={handleDragging}></ScrollAreaDemo>
       </div>
     </>
   );

@@ -7,22 +7,30 @@ import { TaskBoard } from "@/components/task-board"
 
 import { DialogDemo } from "./DialogDemo"
 
+interface Props {
+    variante:string
+    titulo:string
+    isDragging: boolean
+    handleDragging: (dragging: boolean) => void
+}
 
-export function ScrollAreaDemo({variante,titulo}: {variante: string, titulo: string}) {
+
+
+export function ScrollAreaDemo({variante,titulo,isDragging,handleDragging}: Props) {
   
 
   
 
   return (
-    <div className=" flex flex-col gap-2 items-center">
+    <div className="  flex flex-col gap-2 items-center">
         <div>{titulo}</div>
     
 
-    <ScrollArea className="h-85 w-90  rounded-md border  " >
+    <ScrollArea className="h-85 w-80  rounded-md border  " >
       <div className="p-1">
         
           <React.Fragment key='one'>
-             <TaskBoard variant={variante}/>
+             <TaskBoard variant={variante} isDragging={isDragging} handleDragging={handleDragging}/>
             <Separator className="my-2" />
           </React.Fragment>
         
