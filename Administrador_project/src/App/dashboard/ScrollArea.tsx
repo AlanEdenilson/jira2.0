@@ -24,7 +24,7 @@ export function ScrollAreaDemo({variante,titulo,isDragging,handleDragging}: Prop
   return (
     <div className="  flex flex-col gap-2 items-center">
         <div>{titulo}</div>
-        <a href="whatsapp://send?text=Hola,%20te%20comparto%20este%20artículo" target="_blank">Compartir en WhatsApp</a>
+       
 
     
 
